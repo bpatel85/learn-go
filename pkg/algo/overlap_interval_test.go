@@ -18,7 +18,7 @@ func TestOverlappingIntervals(t *testing.T) {
 		algo.Interval{Start: 12, End: 13, Group: "b"},
 	}
 
-	a, err := algo.FindOverlappingIntervals(input)
+	a, err := algo.FindOverlappingIntervals(input, []string{"a", "b", "c"})
 	if err != nil {
 		t.Errorf(err.Error())
 	}

@@ -4,6 +4,8 @@ import (
 	"errors"
 	"math"
 	"sort"
+
+	"github.com/bpatel85/learn-go/pkg/common"
 )
 
 /** a single interval is defined as a 3-element tuple
@@ -27,33 +29,46 @@ type MergedInterval struct {
 	SubIntervals []Interval
 }
 
-func FindOverlappingIntervals(intervals []Interval) ([]MergedInterval, error) {
+func FindOverlappingIntervals(intervals []Interval, categories []string) ([]MergedInterval, error) {
+	if len(categories) == 0 {
+		return nil, nil
+	}
+
 	if len(intervals) == 0 {
 		return nil, errors.New("empty intervals provided")
 	}
 
+	filtered := make([]Interval, 0)
+	for _, i := range intervals {
+		if common.StringInSliceIgnoreCase(i.Group, categories) {
+			filtered = append(filtered, i)
+		}
+	}
+
+	if len(filtered) == 0 {
+		return nil, nil
+	}
+
 	sortFunc := func(i, j int) bool {
-		return intervals[i].Start < intervals[j].Start
+		return filtered[i].Start < filtered[j].Start
 	}
 
-	// todo: this is not recommended as this is mutating the passed in array
-	sort.SliceStable(intervals, sortFunc)
-
+	// sort and initial state
+	sort.SliceStable(filtered, sortFunc)
 	merged := make([]MergedInterval, 0)
-
 	current := MergedInterval{
-		Start:        intervals[0].Start,
-		End:          intervals[0].End,
-		SubIntervals: []Interval{intervals[0]},
+		Start:        filtered[0].Start,
+		End:          filtered[0].End,
+		SubIntervals: []Interval{filtered[0]},
 	}
 
-	for idx, i := range intervals {
+	for idx, i := range filtered {
 		if idx == 0 {
 			continue
 		}
 
 		if i.Start > current.End+1 {
-			// this is disjoint
+			// this is disjoint. start new merged interval
 			merged = append(merged, current)
 			current = MergedInterval{
 				Start:        i.Start,
@@ -66,6 +81,7 @@ func FindOverlappingIntervals(intervals []Interval) ([]MergedInterval, error) {
 		}
 	}
 
+	// add the last stage
 	merged = append(merged, current)
 
 	return merged, nil
