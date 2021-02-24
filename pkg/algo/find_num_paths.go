@@ -1,8 +1,11 @@
 package algo
 
-type FindPaths struct{}
+/**
 
-func (fp FindPaths) numPathsInner(world [][]int, x int, y int) int {
+**/
+type FindNumPaths struct{}
+
+func (fp FindNumPaths) numPathsInner(world [][]int, x int, y int) int {
 	if world[x][y] == 1 {
 		return 0
 	}
@@ -14,7 +17,7 @@ func (fp FindPaths) numPathsInner(world [][]int, x int, y int) int {
 	return fp.numPathsInner(world, x-1, y) + fp.numPathsInner(world, x, y-1)
 }
 
-func (fp FindPaths) CountNumPaths(world [][]int) int {
+func (fp FindNumPaths) CountNumPaths(world [][]int) int {
 	// add some checks
 	if world == nil {
 		return 0
