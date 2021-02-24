@@ -7,7 +7,7 @@ import (
 )
 
 func TestPriorityQueue(t *testing.T) {
-	q := common.NewPriorityQueue()
+	q := common.NewMinPriorityQueue()
 
 	if !q.IsEmpty() {
 		t.Errorf("newly created pq must be empty")
