@@ -13,3 +13,7 @@ If you complete this program we might start to talk about the shortest path thro
 **/
 
 package algo
+
+func FindPath_A_Star(maze [][]int, startX, startY, endX, endY int) [][2]int {
+	return nil
+}
