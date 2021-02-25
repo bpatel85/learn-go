@@ -81,11 +81,12 @@ func FindPath_DFS(maze [][]int, startX, startY, endX, endY int) ([][]string, err
 				continue
 			}
 
-			if maze[n[0]][n[1]] == 1 || isVisited(n[0], n[1], node.pathSoFar) {
+			if maze[n[1]][n[0]] == 1 || isVisited(n[0], n[1], node.pathSoFar) {
 				continue
 			}
 
 			fmt.Printf("\nGoing to traves %s to (%d, %d) from (%d, %d)\n", hops[idx], n[0], n[1], node.x, node.y)
+
 			stack.Push(traverseNode{
 				x:         n[0],
 				y:         n[1],
